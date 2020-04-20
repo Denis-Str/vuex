@@ -1,28 +1,42 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<template lang="pug">
+  #id
+    div state {{notes}}
+    //p {{notes}}
+    //button(@click='addNew') Добавить
+
+    ul(v-for="note in notes")
+      li {{note.text}}
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import {mapState, mapActions} from 'vuex'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  export default {
+    computed: {
+      ...mapActions(['fetchJSON']),
+      ...mapState({
+        notes: state => state.notes,
+      }),
+      // вызывает getter из store, без mapState
+      // notes() {
+      //   return this.$store.getters.notes;
+      // }
+    },
+    methods: {
+      // ...mapMutations(['ADD_NOTE', 'addJson']),
+      // ...mapMutations(['addJson']),
+      // addNew() {
+      //   this.ADD_NOTE({text: "новая заметка"})
+      //   // вызывает actions из store, без mapMutations
+      //   // this.$store.dispatch('addNote', { text: 'новая заметка' })
+      // }
+    },
+    created() {
+      this.fetchJSON
+    },
   }
-}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
